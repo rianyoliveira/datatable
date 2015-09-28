@@ -8,6 +8,8 @@ public class DataTable {
 	public static final int TYPE_INT = 0;
 	public static final int TYPE_STRING = 1;
 	
+	public static final int FORMAT_CSV = 0;
+	
 	private LinkedHashMap<String, Integer> columnsTypes = new LinkedHashMap<String, Integer>();
 	private ArrayList<DataTableRow> rows = new ArrayList<DataTableRow>();
 	
@@ -64,5 +66,28 @@ public class DataTable {
 
 	public DataTableRow getRow(int i) {
 		return rows.get(i);
+	}
+
+	public String export(int format) {
+		DataTableRow row;
+		String output = "";
+		if (format == DataTable.FORMAT_CSV) {
+			for (String collumnName : columnsTypes.keySet()) {
+				output += collumnName + ";";
+			}
+			output += "\n";
+			for (int i = 0; i < this.rowsCount(); i++) {
+				row = this.getRow(i);
+				for (String collumnName : columnsTypes.keySet()) {
+					if (columnsTypes.get(collumnName) == DataTable.TYPE_STRING) {
+						output += "\"" + row.getValue(collumnName) + "\";";
+					} else {
+						output += row.getValue(collumnName) + ";";
+					}
+				}
+				output += "\n";
+			}
+		}
+		return output;
 	}
 }
