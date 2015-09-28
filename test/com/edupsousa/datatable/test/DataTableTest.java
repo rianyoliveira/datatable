@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.edupsousa.datatable.DataTable;
+import com.edupsousa.datatable.DataTableRow;
 
 public class DataTableTest {
 
@@ -27,6 +28,17 @@ public class DataTableTest {
 		dt.addCollumn("id", DataTable.TYPE_INT);
 		assertEquals(1, dt.columnsCount());
 		assertTrue(dt.hasCollumn("id"));
+	}
+	
+	@Test
+	public void addRow() {
+		dt.addCollumn("id", DataTable.TYPE_INT);
+		DataTableRow row = dt.createRow();
+		row.setValue("id", 1);
+		dt.insertRow(row);
+		
+		assertEquals(1, dt.rowsCount());
+		assertEquals(1, dt.lastRow().getValue("id"));
 	}
 	
 }
