@@ -6,6 +6,8 @@ import java.util.LinkedHashMap;
 public class DataTable {
 
 	public static final int TYPE_INT = 0;
+	public static final int TYPE_STRING = 1;
+	
 	private LinkedHashMap<String, Integer> columnsTypes = new LinkedHashMap<String, Integer>();
 	private ArrayList<DataTableRow> rows = new ArrayList<DataTableRow>();
 	
@@ -52,8 +54,11 @@ public class DataTable {
 	}
 	
 	private boolean isValueCompatible(int type, Object value) {
-		if (type == this.TYPE_INT && !(value instanceof Integer))
+		if (type == this.TYPE_INT && !(value instanceof Integer)) {
 			return false;
+		} else if (type == this.TYPE_STRING && !(value instanceof String)) {
+			return false;
+		}
 		return true;
 	}
 }

@@ -55,4 +55,18 @@ public class DataTableTest {
 		fail();
 	}
 	
+	@Test
+	public void wrongTypeToStringCollumn() {
+		dt.addCollumn("name", DataTable.TYPE_STRING);
+		DataTableRow row = dt.createRow();
+		row.setValue("name", 1);
+		try {
+			dt.insertRow(row);
+		} catch (ClassCastException e) {
+			assertEquals("Wrong type for collumn name.", e.getMessage());
+			return;
+		}
+		fail();
+	}
+	
 }
