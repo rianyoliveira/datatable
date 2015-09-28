@@ -41,4 +41,18 @@ public class DataTableTest {
 		assertEquals(1, dt.lastRow().getValue("id"));
 	}
 	
+	@Test
+	public void wrongTypeToIntegerCollumn() {
+		dt.addCollumn("id", DataTable.TYPE_INT);
+		DataTableRow row = dt.createRow();
+		row.setValue("id", "A");
+		try {
+			dt.insertRow(row);
+		} catch (ClassCastException e) {
+			assertEquals("Wrong type for collumn id.", e.getMessage());
+			return;
+		}
+		fail();
+	}
+	
 }

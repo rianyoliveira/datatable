@@ -30,6 +30,7 @@ public class DataTable {
 	}
 
 	public void insertRow(DataTableRow row) {
+		checkRowCompatibilityAndThrows(row);
 		rows.add(row);
 	}
 
@@ -40,5 +41,19 @@ public class DataTable {
 	public int getCollumnType(String collumn) {
 		return columnsTypes.get(collumn);
 	}
-
+	
+	private void checkRowCompatibilityAndThrows(DataTableRow row) {
+		for (String collumnName : columnsTypes.keySet()) {
+			if (row.hasValueFor(collumnName) && 
+					!(isValueCompatible(columnsTypes.get(collumnName), row.getValue(collumnName)))) {
+				throw new ClassCastException("Wrong type for collumn " + collumnName + ".");
+			}
+		}
+	}
+	
+	private boolean isValueCompatible(int type, Object value) {
+		if (type == this.TYPE_INT && !(value instanceof Integer))
+			return false;
+		return true;
+	}
 }

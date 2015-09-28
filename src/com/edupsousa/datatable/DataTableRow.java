@@ -19,4 +19,8 @@ public class DataTableRow {
 		return values.get(collumn);
 	}
 
+	public boolean hasValueFor(String collumnName) {
+		return values.containsKey(collumnName);
+	}
+
 }
