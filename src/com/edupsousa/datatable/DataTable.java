@@ -61,4 +61,8 @@ public class DataTable {
 		}
 		return true;
 	}
+
+	public DataTableRow getRow(int i) {
+		return rows.get(i);
+	}
 }

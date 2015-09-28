@@ -69,4 +69,23 @@ public class DataTableTest {
 		fail();
 	}
 	
+	@Test
+	public void add10RowsAndVerifyOrder() {
+		DataTableRow row;
+		dt.addCollumn("id", DataTable.TYPE_INT);
+		dt.addCollumn("name", DataTable.TYPE_STRING);
+		
+		for (int i = 0; i < 10; i++) {
+			row = dt.createRow();
+			row.setValue("id", i);
+			row.setValue("name", "row" + i);
+			dt.insertRow(row);
+		}
+		
+		for (int i = 0; i < 10; i++) {
+			row = dt.getRow(i);
+			assertEquals(i, row.getValue("id"));
+			assertEquals("row" + i, row.getValue("name"));
+		}
+	}
 }
