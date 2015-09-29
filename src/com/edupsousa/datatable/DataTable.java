@@ -88,9 +88,32 @@ public class DataTable {
 				}
 				output += "\n";
 			}
+		
+		}
+		else if (format == DataTable.FORMAT_HTML){
+			output += "<table>\n";
+			output += "<tr>";
+			for (String collumnName : columnsTypes.keySet()) {
+				output += "<td>" + collumnName + "</td>";
+			}
+			output += "</tr>\n";
+			for (int i = 0; i < this.rowsCount(); i++) {
+				row = this.getRow(i);
+				output += "<tr>";
+				for (String collumnName : columnsTypes.keySet()) {
+					if (columnsTypes.get(collumnName) == DataTable.TYPE_STRING) {
+						output += "<td>" + row.getValue(collumnName) + "</td>";
+					} else {
+						output += "<td>" + row.getValue(collumnName) + "</td>";
+					}
+				}
+				output += "</tr>\n";
+			}
+			output += "</table>\n";
 		}
 		return output;
 	}
+	
 	
 	public void insertRowAt(DataTableRow row, int index) {
 		rows.add(index, row);
