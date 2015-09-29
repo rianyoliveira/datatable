@@ -9,6 +9,7 @@ public class DataTable {
 	public static final int TYPE_STRING = 1;
 	
 	public static final int FORMAT_CSV = 0;
+	public static final int FORMAT_HTML = 1;
 	
 	private LinkedHashMap<String, Integer> columnsTypes = new LinkedHashMap<String, Integer>();
 	private ArrayList<DataTableRow> rows = new ArrayList<DataTableRow>();
@@ -89,5 +90,17 @@ public class DataTable {
 			}
 		}
 		return output;
+	}
+	
+	public void insertRowAt(DataTableRow row, int index) {
+		rows.add(index, row);
+	}
+	
+	public DataTable filterEqual(String collumn, Object value) {
+		return null;
+	}
+	
+	public DataTable sortAscending(String collumn) {
+		return null;
 	}
 }

@@ -104,4 +104,82 @@ public class DataTableTest {
 		String csvOutput = dt.export(DataTable.FORMAT_CSV);
 		assertEquals("id;name;\n0;\"row0\";\n1;\"row1\";\n2;\"row2\";\n", csvOutput);
 	}
+	
+	@Test
+	public void exportToHTML() {
+		DataTableRow row;
+		dt.addCollumn("id", DataTable.TYPE_INT);
+		dt.addCollumn("name", DataTable.TYPE_STRING);
+		
+		for (int i = 0; i < 3; i++) {
+			row = dt.createRow();
+			row.setValue("id", i);
+			row.setValue("name", "row" + i);
+			dt.insertRow(row);
+		}
+		String expectedHtml = "<table>\n";
+		expectedHtml += "<tr><td>id</td><td>name</td></tr>\n";
+		expectedHtml += "<tr><td>0</td><td>row0</td></tr>\n";
+		expectedHtml += "<tr><td>1</td><td>row1</td></tr>\n";
+		expectedHtml += "<tr><td>2</td><td>row2</td></tr>\n";
+		expectedHtml += "</table>\n";
+		String htmlOutput = dt.export(DataTable.FORMAT_HTML);
+		assertEquals(expectedHtml, htmlOutput);
+	}
+	
+	@Test
+	public void filterRowsEqual() {
+		DataTableRow row;
+		dt.addCollumn("id", DataTable.TYPE_INT);
+		dt.addCollumn("class", DataTable.TYPE_STRING);
+		
+		for (int i = 1; i <= 100; i++) {
+			row = dt.createRow();
+			row.setValue("id", i);
+			row.setValue("class", (i % 2 == 0 ? "even" : "odd"));
+			dt.insertRow(row);
+		}
+		
+		DataTable filteredTable = dt.filterEqual("class", "even");
+		assertEquals(50, filteredTable.rowsCount());
+		for (int i = 0; i < 50; i++) {
+			row = filteredTable.getRow(i);
+			assertEquals((i+1)*2, row.getValue("id"));
+			assertEquals("even", row.getValue("class"));
+		}
+	}
+	
+	@Test
+	public void sortRowsAscending() {
+		DataTableRow row;
+		dt.addCollumn("id", DataTable.TYPE_INT);
+		dt.addCollumn("number", DataTable.TYPE_INT);
+		
+		for (int i = 0; i < 5; i++) {
+			row = dt.createRow();
+			row.setValue("id", i);
+			row.setValue("number", 4-i);
+			dt.insertRow(row);
+		}
+		
+		DataTable sortedTable = dt.sortAscending("number");
+		for (int i = 0; i < 5; i++) {
+			row = sortedTable.getRow(i);
+			assertEquals(4-i, row.getValue("id"));
+			assertEquals(i, row.getValue("number"));						
+		}
+	}
+	
+	@Test
+	public void sortRowsTypeException() {
+		dt.addCollumn("name", DataTable.TYPE_STRING);
+		
+		try {
+			dt.sortAscending("name");
+		} catch (ClassCastException e) {
+			assertEquals("Only Integer columns can be sorted.", e.getMessage());
+			return;
+		}
+		fail();
+	}
 }
