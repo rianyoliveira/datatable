@@ -107,20 +107,44 @@ public class DataTable {
 
 	public DataTable sortAscending(String collumn) {
 		DataTable dt = this;
-		if (dt.getCollumnType(collumn) != TYPE_INT) {
-			throw new ClassCastException("Only Integer columns can be sorted");
+		if (dt.getCollumnType(collumn) == 1) {
+			throw new ClassCastException("Only Integer columns can be sorted.");
 		} else {
-			// here
+			for (int i = 0; i < dt.rows.size() - 1; i++) {
+				for (int j = 0; j < dt.rows.size() - 1; j++) {
+					if ((int) dt.rows.get(j).getValue(collumn) > (int) dt.rows
+							.get(j + 1).getValue(collumn)) {
+						DataTableRow menor = dt.rows.get(j + 1);
+						DataTableRow maior = dt.rows.get(j);
+						dt.rows.remove(j);
+						dt.rows.remove(j);
+						dt.rows.add(j, maior);
+						dt.rows.add(j, menor);
+					}
+				}
+			}
 		}
 		return dt;
 	}
 
 	public DataTable sortDescending(String collumn) {
-		private DataTable dt = this;
-		if (dt.getCollumnType(collumn) != TYPE_INT) {
-			throw new ClassCastException("Only Integer columns can be sorted");
+		DataTable dt = this;
+		if (dt.getCollumnType(collumn) == 1) {
+			throw new ClassCastException("Only Integer columns can be sorted.");
 		} else {
-			//here
+			for (int i = 0; i < dt.rows.size() - 1; i++) {
+				for (int j = 0; j < dt.rows.size() - 1; j++) {
+					if ((int) dt.rows.get(j).getValue(collumn) < (int) dt.rows
+							.get(j + 1).getValue(collumn)) {
+						DataTableRow menor = dt.rows.get(j + 1);
+						DataTableRow maior = dt.rows.get(j);
+						dt.rows.remove(j);
+						dt.rows.remove(j);
+						dt.rows.add(j, maior);
+						dt.rows.add(j, menor);
+					}
+				}
+			}
 		}
 		return dt;
 	}
