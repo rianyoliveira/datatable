@@ -73,9 +73,9 @@ public class DataTable {
 
 	public String export(int format) {
 		ExportFormat ef;
-		if(format == 0){
+		if (format == 0) {
 			ef = new ExportCsv();
-		}else{
+		} else {
 			ef = new ExportHtml();
 		}
 		return ef.export(this, columnsTypes);
@@ -86,27 +86,41 @@ public class DataTable {
 	}
 
 	public DataTable filterEqual(String collumn, Object value) {
-		return null;
-	}
-
-	public DataTable sortAscending(String collumn) {
 		DataTable dt = this;
-		if (dt.getCollumnType(collumn) != 0) {
-			throw new ClassCastException("Only Integer columns can be sorted");
-		} else {
-			for (int i = 0; i < 5; i++) {
-			
+		for (int i = 0; i < dt.rows.size(); i++) {
+			if (dt.rows.get(i).getValue(collumn) != value) {
+				dt.rows.remove(i);
 			}
 		}
 		return dt;
 	}
 
-	public DataTable sortDescending(String collumn) {
+	public DataTable filterNotEqual(String collumn, Object value) {
 		DataTable dt = this;
-		if (dt.getCollumnType(collumn) != 0) {
+		for (int i = 0; i < dt.rows.size(); i++) {
+			if (dt.rows.get(i).getValue(collumn) == value) {
+				dt.rows.remove(i);
+			}
+		}
+		return dt;
+	}
+
+	public DataTable sortAscending(String collumn) {
+		DataTable dt = this;
+		if (dt.getCollumnType(collumn) != TYPE_INT) {
 			throw new ClassCastException("Only Integer columns can be sorted");
 		} else {
-			dt.sortDescending(collumn);
+			// here
+		}
+		return dt;
+	}
+
+	public DataTable sortDescending(String collumn) {
+		private DataTable dt = this;
+		if (dt.getCollumnType(collumn) != TYPE_INT) {
+			throw new ClassCastException("Only Integer columns can be sorted");
+		} else {
+			//here
 		}
 		return dt;
 	}
